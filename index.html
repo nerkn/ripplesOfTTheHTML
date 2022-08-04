@@ -1,0 +1,64 @@
+<h1 class='title'>Move the mouse around, </h1>
+<style>
+body {
+background: #786ff0;
+}
+
+.title { 
+  font: 3em Arial;
+  color:#fff;
+}
+
+.ripple {
+   width: 10px;
+   height: 10px;
+   background-color: transparent;
+   position: fixed;
+   border-radius: 50%;
+   border: 1px solid #ffffff59;
+}
+
+@keyframes ripple-effect {
+   to {
+      transform:scale(15);
+      opacity: 0.01;
+   }
+}
+</style>
+<script>
+let howMany     =   0;
+let howManyMax  =  10;
+let probability =   0.1;
+document.onmousemove = () => applyCursorRippleEffect(event);
+
+function applyCursorRippleEffect(e) {
+  console.log(howMany)
+  if(Math.random()>probability)
+    return
+if (howMany>howManyMax)
+  return;
+  howMany++
+   const ripple = document.createElement("div");
+  
+   ripple.className = "ripple";
+   document.body.appendChild(ripple);
+
+  ripple.style.left = `${e.clientX}px`;
+  ripple.style.top = `${e.clientY}px`; 
+   ripple.style.animation = `ripple-effect 1s  linear`;
+   ripple.onanimationend = () => {
+     howMany--;
+     document.body.removeChild(ripple);
+     
+   }
+  
+}
+
+// extra and optional part:
+
+const all = document.body.getElementsByTagName("*");
+for (var i = 0;  i < all.length; ++i) {
+  all[i].onclick = (event) => event.stopPropagation();
+}
+// orginal code  https://dev.to/leonardoschmittk/how-to-make-a-mouse-ripple-click-effect-with-css-js-and-html-in-2-steps-2fcf
+</script>
